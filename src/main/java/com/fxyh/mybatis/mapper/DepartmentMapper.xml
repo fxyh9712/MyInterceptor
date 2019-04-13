@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fxyh.mybatis.mapper.DepartmentMapper">
+
+    <resultMap id="DepartmentResultMap" type="Department">
+        <id property="id" column="department_id"/>
+        <result property="name" column="department_name"/>
+        <result property="location" column="department_location"/>
+        <collection property="persons" column="department_id" ofType="Person">
+            <id property="id" column="person_id"/>
+            <result property="name" column="person_name"/>
+            <result property="password" column="person_password"/>
+            <result property="salary" column="person_salary"/>
+            <result property="birthday" column="person_birthday"/>
+        </collection>
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultType="Department">
+        SELECT
+            department_id id,
+            department_name name,
+            department_location location
+        FROM
+            mybatis_department
+        WHERE
+            department_id = #{id}
+    </select>
+
+    <select id="findPersonsByDepartmentName" resultMap="com.fxyh.mybatis.mapper.PersonMapper.PersonResultMap">
+        SELECT
+            p.person_id,
+            p.person_name,
+            p.person_password,
+            p.person_salary,
+            p.person_birthday
+        FROM
+            mybatis_person p
+        LEFT JOIN
+            mybatis_department d ON p.department_id = d.department_id
+        WHERE
+            d.department_name = #{name}
+    </select>
+
+    <select id="findByName" resultMap="DepartmentResultMap" parameterType="string">
+        SELECT
+            p.person_id,
+            p.person_name,
+            p.person_password,
+            p.person_salary,
+            p.person_birthday,
+            d.department_id,
+            d.department_name,
+            d.department_location
+        FROM
+            mybatis_department d
+        LEFT JOIN
+            mybatis_person p ON d.department_id = p.department_id
+        WHERE
+            d.department_name = #{name}
+    </select>
+</mapper>
