@@ -9,6 +9,9 @@
         <package name="com.fxyh.mybatis.domain"/>
     </typeAliases>
 
+    <plugins>
+        <plugin interceptor="com.fxyh.mybatis.interceptor.PageInterceptor" />
+    </plugins>
 
     <environments default="development">
         <environment id="development">
