@@ -1,7 +1,6 @@
 package com.fxyh.mybatis.mapper.test;
 
 import com.fxyh.mybatis.interceptor.MyPage;
-import com.fxyh.mybatis.interceptor.PageParam;
 import com.fxyh.mybatis.mapper.UserMapper;
 import com.fxyh.mybatis.domain.User;
 import com.fxyh.mybatis.util.MyBatisUtils;
@@ -10,7 +9,6 @@ import org.junit.Test;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class UserMapperTest {
 
@@ -45,14 +43,14 @@ public class UserMapperTest {
             // 得到UserMapper接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
-            PageParam pageParam = new PageParam();
             MyPage<User> myPage = new MyPage<>(1, 3);
             HashMap<String, Object> map = new HashMap<>();
             map.put("name", "张三");
             map.put("password", "123456");
-            map.put("myPage", "myPage");
-            userMapper.findAllByPage(map);
-            System.out.println(myPage.getTotal());
+            map.put("myPage", myPage);
+            myPage.setRows(userMapper.findAllByPage(map));
+            System.out.println(myPage);
+            System.out.println(myPage.getRows());
             sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();

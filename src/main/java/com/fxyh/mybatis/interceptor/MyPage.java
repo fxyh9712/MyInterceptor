@@ -50,13 +50,13 @@ public class MyPage<T> implements Serializable {
      * @return
      **/
     public MyPage(Integer pageNo, Integer pageSize, boolean useFlag) {
-        this.useFlag = useFlag;
         this(pageNo, pageSize);
+        this.useFlag = useFlag;
     }
 
     public MyPage(Integer pageNo, Integer pageSize, boolean useFlag, boolean checkFlag){
-        this.checkFlag = checkFlag;
         this(pageNo, pageSize, useFlag);
+        this.checkFlag = checkFlag;
     }
 
     public Long getTotal() {
@@ -126,5 +126,17 @@ public class MyPage<T> implements Serializable {
 
     public void setCheckFlag(boolean checkFlag) {
         this.checkFlag = checkFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "MyPage{" +
+                "total=" + total +
+                ", pages=" + pages +
+                ", rows=" + rows +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
+                ", pageStart=" + pageStart +
+                '}';
     }
 }

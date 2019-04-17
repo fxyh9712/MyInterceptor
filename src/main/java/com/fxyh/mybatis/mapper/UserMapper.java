@@ -1,7 +1,6 @@
 package com.fxyh.mybatis.mapper;
 
 import com.fxyh.mybatis.domain.User;
-import com.fxyh.mybatis.interceptor.PageParam;
 
 import java.util.HashMap;
 import java.util.List;
