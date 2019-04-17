@@ -1,5 +1,6 @@
 package com.fxyh.mybatis.mapper.test;
 
+import com.fxyh.mybatis.interceptor.MyPage;
 import com.fxyh.mybatis.interceptor.PageParam;
 import com.fxyh.mybatis.mapper.UserMapper;
 import com.fxyh.mybatis.domain.User;
@@ -45,14 +46,13 @@ public class UserMapperTest {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
             PageParam pageParam = new PageParam();
-            pageParam.setDefaultPage(1);
-            pageParam.setDefaultPageSize(2);
-            pageParam.setDefaultCheckFlag(true);
+            MyPage<User> myPage = new MyPage<>(1, 3);
             HashMap<String, Object> map = new HashMap<>();
             map.put("name", "张三");
             map.put("password", "123456");
-            userMapper.findAllByPage(pageParam, map);
-            System.out.println(pageParam);
+            map.put("myPage", "myPage");
+            userMapper.findAllByPage(map);
+            System.out.println(myPage.getTotal());
             sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();

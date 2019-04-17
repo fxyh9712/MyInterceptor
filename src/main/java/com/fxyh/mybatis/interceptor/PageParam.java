@@ -1,12 +1,5 @@
 package com.fxyh.mybatis.interceptor;
 
-/**
- * Created by chenboge on 2017/5/14.
- * <p>
- * Email:baigegechen@gmail.com
- * <p>
- * description:实现分页的辅助类，用于封装用于分页的一些参数
- */
 public class PageParam {
     private Integer defaultPage;
     //默认每页显示条数

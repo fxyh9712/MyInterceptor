@@ -2,12 +2,9 @@ package com.fxyh.mybatis.mapper;
 
 import com.fxyh.mybatis.domain.User;
 import com.fxyh.mybatis.interceptor.PageParam;
-import com.fxyh.mybatis.interceptor.UseMyPage;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public interface UserMapper {
 
@@ -21,6 +18,5 @@ public interface UserMapper {
 
     List<User> findAll();
 
-//    @UseMyPage
-    List<User> findAllByPage(PageParam pageParam, HashMap<String, Object> paramMap);
+    List<User> findAllByPage(HashMap<String, Object> paramMap);
 }
