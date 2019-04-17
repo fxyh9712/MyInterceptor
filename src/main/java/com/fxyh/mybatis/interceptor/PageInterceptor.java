@@ -1,8 +1,6 @@
 package com.fxyh.mybatis.interceptor;
 
-import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -12,7 +10,6 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,12 +18,12 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by chenboge on 2017/5/14.
- * <p>
- * Email:baigegechen@gmail.com
- * <p>
- * description:插件分页
- */
+ * @ClassName: PageInterceptor
+ * @description: 插件分页
+ * @author: fengzhaoquan
+ * @create: 2019-04-17 13:22
+ * @Version 1.0
+ **/
 @Intercepts(@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class}))
 public class PageInterceptor implements Interceptor {
 
@@ -52,7 +49,7 @@ public class PageInterceptor implements Interceptor {
         BoundSql boundSql = statementHandler.getBoundSql();
         Object paramObject = boundSql.getParameterObject();
         MyPage myPage = getMyPage(paramObject);
-        if (myPage == null){
+        if (myPage == null) {
             return invocation.proceed();
         }
         //不使用分页功能
@@ -68,9 +65,9 @@ public class PageInterceptor implements Interceptor {
     }
 
     /**
-     * @Author fengzhaoquan
-     * @Description 从代理对象中分离出真实statementHandler对象,非代理对象
      * @return
+     * @Author fengzhaoquan
+     * @Description 从代理对象中分离出真实statementHandler对象, 非代理对象
      **/
     private StatementHandler getActuralHandlerObject(Invocation invocation) {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
@@ -89,9 +86,9 @@ public class PageInterceptor implements Interceptor {
     }
 
     /**
+     * @return
      * @Author fengzhaoquan
      * @Description 判断是否是select语句，只有select语句，才会用到分页
-     * @return
      **/
     private boolean checkIsSelectFalg(String sql) {
         String trimSql = sql.trim();
@@ -127,9 +124,9 @@ public class PageInterceptor implements Interceptor {
     }
 
     /**
+     * @return
      * @Author fengzhaoquan
      * @Description 获取当前sql查询的记录总数
-     * @return
      **/
     private int getTotal(Invocation invocation, MetaObject metaStatementHandler, BoundSql boundSql) {
         //获取mapper文件中当前查询语句的配置信息
@@ -173,9 +170,9 @@ public class PageInterceptor implements Interceptor {
     }
 
     /**
+     * @return
      * @Author fengzhaoquan
      * @Description 修改原始sql语句为分页sql语句
-     * @return
      **/
     private Object updateSql2Limit(Invocation invocation, MetaObject metaStatementHandler, int pageSize, int pageStart) throws InvocationTargetException, IllegalAccessException, SQLException {
         String sql = (String) metaStatementHandler.getValue("delegate.boundSql.sql");
@@ -194,9 +191,9 @@ public class PageInterceptor implements Interceptor {
     }
 
     /**
+     * @return
      * @Author fengzhaoquan
      * @Description 验证当前页码的有效性
-     * @return
      **/
     private void checkPage(boolean checkFlag, Integer pageNumber, Long pageTotal) throws Exception {
         if (checkFlag) {
