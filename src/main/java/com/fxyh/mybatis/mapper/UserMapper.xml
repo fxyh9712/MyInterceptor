@@ -58,11 +58,11 @@
         FROM
             mybatis_user u
         where 1=1
-      <!--  <if test="map.name != null and map.name != ''">
-            and u.user_name like #{map.name}
+        <if test="name != null and name != ''">
+            and u.user_name like #{name}
         </if>
-        <if test="map.password != null and map.password != ''">
-            and u.password like #{map.password}
-        </if>-->
+        <if test="password != null and password != ''">
+            and u.password like #{password}
+        </if>
     </select>
 </mapper>

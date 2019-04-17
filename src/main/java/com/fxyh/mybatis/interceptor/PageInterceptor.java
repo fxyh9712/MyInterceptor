@@ -64,7 +64,7 @@ public class PageInterceptor implements Interceptor {
         //检查当前页码的有效性
         checkPage(myPage.isCheckFlag(), myPage.getPageNo(), myPage.getPages());
         //修改sql
-        return updateSql2Limit(invocation, metaStatementHandler, myPage.getPageNo(), myPage.getPageStart());
+        return updateSql2Limit(invocation, metaStatementHandler, myPage.getPageSize(), myPage.getPageStart());
     }
 
     /**
@@ -180,7 +180,7 @@ public class PageInterceptor implements Interceptor {
     private Object updateSql2Limit(Invocation invocation, MetaObject metaStatementHandler, int pageSize, int pageStart) throws InvocationTargetException, IllegalAccessException, SQLException {
         String sql = (String) metaStatementHandler.getValue("delegate.boundSql.sql");
         //构建新的分页sql语句
-        String limitSql = "select * from (" + sql + ") $_paging_table limit ?,?";
+        String limitSql = "select * from (" + sql + ") $_paging_table limit ? offset ?";
         //修改当前要执行的sql语句
         metaStatementHandler.setValue("delegate.boundSql.sql", limitSql);
         //相当于调用prepare方法，预编译sql并且加入参数，但是少了分页的两个参数，它返回一个PreparedStatement对象
@@ -188,8 +188,8 @@ public class PageInterceptor implements Interceptor {
         //获取sql总的参数总数
         int count = ps.getParameterMetaData().getParameterCount();
         //设置与分页相关的两个参数
-        ps.setInt(count - 1, pageStart);
-        ps.setInt(count, pageSize);
+        ps.setInt(count, pageStart);
+        ps.setInt(count - 1, pageSize);
         return ps;
     }
 
